@@ -3,7 +3,7 @@ title: "File_Import_practice"
 output: github_document
 ---
 
-```{r setup}
+```{r setup1, message=FALSE}
 library(tidyverse)
 ```
 

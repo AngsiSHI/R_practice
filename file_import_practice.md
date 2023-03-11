@@ -1,37 +1,9 @@
-File\_Import\_practice
+File_Import_practice
 ================
 
 ``` r
 library(tidyverse)
 ```
-
-    ## Warning: package 'tidyverse' was built under R version 4.1.2
-
-    ## Warning: package 'ggplot2' was built under R version 4.1.2
-
-    ## Warning: package 'tidyr' was built under R version 4.1.2
-
-    ## Warning: package 'readr' was built under R version 4.1.2
-
-    ## Warning: package 'purrr' was built under R version 4.1.2
-
-    ## Warning: package 'dplyr' was built under R version 4.1.2
-
-    ## Warning: package 'stringr' was built under R version 4.1.2
-
-    ## Warning: package 'forcats' was built under R version 4.1.2
-
-    ## Warning: package 'lubridate' was built under R version 4.1.2
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.0     ✔ readr     2.1.4
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-    ## ✔ ggplot2   3.4.1     ✔ tibble    3.2.0
-    ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-    ## ✔ purrr     1.0.1     ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 Set Up
 
@@ -41,10 +13,12 @@ Set Up
 litters_df = read_csv("./data/FAS_litters.csv")
 ```
 
-    ## Rows: 49 Columns: 8── Column specification ────────────────────────────────────────────────────────
+    ## Rows: 49 Columns: 8
+    ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
     ## chr (2): Group, Litter Number
     ## dbl (6): GD0 weight, GD18 weight, GD of Birth, Pups born alive, Pups dead @ ...
+    ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
@@ -114,48 +88,48 @@ Skim the relevant data summary
 skimr::skim(litters_df)
 ```
 
-|                                                  |             |
-|:-------------------------------------------------|:------------|
-| Name                                             | litters\_df |
-| Number of rows                                   | 49          |
-| Number of columns                                | 8           |
-| \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_   |             |
-| Column type frequency:                           |             |
-| character                                        | 2           |
-| numeric                                          | 6           |
-| \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |             |
-| Group variables                                  | None        |
+|                                                  |            |
+|:-------------------------------------------------|:-----------|
+| Name                                             | litters_df |
+| Number of rows                                   | 49         |
+| Number of columns                                | 8          |
+| \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_   |            |
+| Column type frequency:                           |            |
+| character                                        | 2          |
+| numeric                                          | 6          |
+| \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |            |
+| Group variables                                  | None       |
 
 Data summary
 
 **Variable type: character**
 
-| skim\_variable | n\_missing | complete\_rate | min | max | empty | n\_unique | whitespace |
-|:---------------|-----------:|---------------:|----:|----:|------:|----------:|-----------:|
-| group          |          0 |              1 |   4 |   4 |     0 |         6 |          0 |
-| litter\_number |          0 |              1 |   3 |  15 |     0 |        49 |          0 |
+| skim_variable | n_missing | complete_rate | min | max | empty | n_unique | whitespace |
+|:--------------|----------:|--------------:|----:|----:|------:|---------:|-----------:|
+| group         |         0 |             1 |   4 |   4 |     0 |        6 |          0 |
+| litter_number |         0 |             1 |   3 |  15 |     0 |       49 |          0 |
 
 **Variable type: numeric**
 
-| skim\_variable    | n\_missing | complete\_rate |  mean |   sd |   p0 |   p25 |   p50 |   p75 | p100 | hist  |
-|:------------------|-----------:|---------------:|------:|-----:|-----:|------:|------:|------:|-----:|:------|
-| gd0\_weight       |         15 |           0.69 | 24.38 | 3.28 | 17.0 | 22.30 | 24.10 | 26.67 | 33.4 | ▃▇▇▆▁ |
-| gd18\_weight      |         17 |           0.65 | 41.52 | 4.05 | 33.4 | 38.88 | 42.25 | 43.80 | 52.7 | ▃▃▇▂▁ |
-| gd\_of\_birth     |          0 |           1.00 | 19.65 | 0.48 | 19.0 | 19.00 | 20.00 | 20.00 | 20.0 | ▅▁▁▁▇ |
-| pups\_born\_alive |          0 |           1.00 |  7.35 | 1.76 |  3.0 |  6.00 |  8.00 |  8.00 | 11.0 | ▁▃▂▇▁ |
-| pups\_dead\_birth |          0 |           1.00 |  0.33 | 0.75 |  0.0 |  0.00 |  0.00 |  0.00 |  4.0 | ▇▂▁▁▁ |
-| pups\_survive     |          0 |           1.00 |  6.41 | 2.05 |  1.0 |  5.00 |  7.00 |  8.00 |  9.0 | ▁▃▂▇▇ |
+| skim_variable   | n_missing | complete_rate |  mean |   sd |   p0 |   p25 |   p50 |   p75 | p100 | hist  |
+|:----------------|----------:|--------------:|------:|-----:|-----:|------:|------:|------:|-----:|:------|
+| gd0_weight      |        15 |          0.69 | 24.38 | 3.28 | 17.0 | 22.30 | 24.10 | 26.67 | 33.4 | ▃▇▇▆▁ |
+| gd18_weight     |        17 |          0.65 | 41.52 | 4.05 | 33.4 | 38.88 | 42.25 | 43.80 | 52.7 | ▃▃▇▂▁ |
+| gd_of_birth     |         0 |          1.00 | 19.65 | 0.48 | 19.0 | 19.00 | 20.00 | 20.00 | 20.0 | ▅▁▁▁▇ |
+| pups_born_alive |         0 |          1.00 |  7.35 | 1.76 |  3.0 |  6.00 |  8.00 |  8.00 | 11.0 | ▁▃▂▇▁ |
+| pups_dead_birth |         0 |          1.00 |  0.33 | 0.75 |  0.0 |  0.00 |  0.00 |  0.00 |  4.0 | ▇▂▁▁▁ |
+| pups_survive    |         0 |          1.00 |  6.41 | 2.05 |  1.0 |  5.00 |  7.00 |  8.00 |  9.0 | ▁▃▂▇▇ |
 
 We can also use view() function in the shell to see the full data
 
-## Options to read\_csv
+## Options to read_csv
 
-read\_csv("", skip = 10, col\_names = FALSE) skip the first 10 obs and
+read_csv(““, skip = 10, col_names = FALSE) skip the first 10 obs and
 rename the col to x1-xn
 
-read\_csv("“, na = c(”“,”NA“,”.")) N/A processing
+read_csv(““, na = c(”“,”NA”,“.”)) N/A processing
 
-check our ‘?read\_csv()’ for more info
+check our ‘?read_csv()’ for more info
 
 ## Other file format
 
@@ -164,8 +138,6 @@ check our ‘?read\_csv()’ for more info
 ``` r
 library(readxl)
 ```
-
-    ## Warning: package 'readxl' was built under R version 4.1.2
 
 ``` r
 mlb_df = read_excel("./data/mlb11.xlsx")
@@ -189,19 +161,17 @@ mlb_df
     ## #   abbreviated variable names ¹​homeruns, ²​strikeouts, ³​stolen_bases,
     ## #   ⁴​new_onbase
 
-## Options to read\_excel
+## Options to read_excel
 
 range = “A1:E7”
 
-Sheet = ""
+Sheet = “”
 
 ### Read in SAS
 
 ``` r
 library(haven)
 ```
-
-    ## Warning: package 'haven' was built under R version 4.1.2
 
 ``` r
 pulse_df = read_sas("./data/public_pulse_data.sas7bdat")
@@ -225,10 +195,10 @@ pulse_df
 
 ## Comparison with Base R
 
-read.csv vs read\_csv
+read.csv vs read_csv
 
 NEVER USE .csv
 
 ## Export data
 
-write\_csv(mlb,df, “path”)
+write_csv(mlb,df, “path”)

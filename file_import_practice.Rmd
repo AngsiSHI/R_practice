@@ -3,7 +3,7 @@ title: "File_Import_practice"
 output: github_document
 ---
 
-```{r setup, message=false}
+```{r setup}
 library(tidyverse)
 ```
 
@@ -81,3 +81,7 @@ pulse_df
 read.csv vs read_csv 
 
 NEVER USE .csv
+
+## Export data
+
+write_csv(mlb,df, "path")

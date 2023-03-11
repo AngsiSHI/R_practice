@@ -76,4 +76,8 @@ library(haven)
 pulse_df = read_sas("./data/public_pulse_data.sas7bdat")
 pulse_df
 ```
+## Comparison with Base R
 
+read.csv vs read_csv 
+
+NEVER USE .csv

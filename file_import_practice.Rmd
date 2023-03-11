@@ -1,0 +1,79 @@
+---
+title: "File_Import_practice"
+output: github_document
+---
+
+```{r setup, message=false}
+library(tidyverse)
+```
+
+Set Up
+
+## Read in some data
+
+```{r readin}
+litters_df = read_csv("./data/FAS_litters.csv")
+litters_df = janitor::clean_names(litters_df)
+```
+
+
+## Different ways to look at the data
+
+
+```{r}
+litters_df
+```
+
+view the front and the back of the data use the following functions:
+
+```{r}
+head(litters_df)
+tail(litters_df)
+```
+
+Skim the relevant data summary
+
+```{r}
+skimr::skim(litters_df)
+```
+
+We can also use view() function in the shell to see the full data
+
+## Options to read_csv
+
+read_csv("", skip = 10, col_names = FALSE)    skip the first 10 obs and rename the col to x1-xn
+
+read_csv("", na = c("", "NA","."))    N/A processing
+
+check our '?read_csv()' for more info
+
+## Other file format
+
+### Read in exacl file
+
+```{r setup_2, message=FALSE}
+library(readxl)
+```
+
+```{r}
+mlb_df = read_excel("./data/mlb11.xlsx")
+mlb_df
+```
+
+## Options to read_excel
+
+range = "A1:E7"
+
+Sheet = ""
+
+### Read in SAS
+
+```{r}
+library(haven)
+```
+
+```{r}
+pulse_df = read_sas("./data/public_pulse_data.sas7bdat")
+pulse_df
+```
+

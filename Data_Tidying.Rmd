@@ -111,10 +111,14 @@ pups_df = read_csv("./data//FAS_pups.csv") %>%
   janitor::clean_names() %>% 
   mutate(sex = recode(sex,'1' = "male", '2' = "female"))
 
+pups_df
+
 litters_df = read_csv("./data/FAS_litters.csv") %>% 
   janitor::clean_names() %>% 
   relocate(litter_number) %>% 
   separate(group, into = c("dose","day_of_tx"), sep = 3)
+
+litters_df
 
 ```
 join
@@ -123,6 +127,8 @@ join
 fas_df = 
   left_join(pups_df,litters_df,by = "litter_number") %>% 
   arrange(litter_number)
+
+fas_df
 ```
 
 

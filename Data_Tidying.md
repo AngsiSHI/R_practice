@@ -226,6 +226,25 @@ pups_df = read_csv("./data//FAS_pups.csv") %>%
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
+pups_df
+```
+
+    ## # A tibble: 313 × 6
+    ##    litter_number sex   pd_ears pd_eyes pd_pivot pd_walk
+    ##    <chr>         <chr>   <dbl>   <dbl>    <dbl>   <dbl>
+    ##  1 #85           male        4      13        7      11
+    ##  2 #85           male        4      13        7      12
+    ##  3 #1/2/95/2     male        5      13        7       9
+    ##  4 #1/2/95/2     male        5      13        8      10
+    ##  5 #5/5/3/83/3-3 male        5      13        8      10
+    ##  6 #5/5/3/83/3-3 male        5      14        6       9
+    ##  7 #5/4/2/95/2   male       NA      14        5       9
+    ##  8 #4/2/95/3-3   male        4      13        6       8
+    ##  9 #4/2/95/3-3   male        4      13        7       9
+    ## 10 #2/2/95/3-2   male        4      NA        8      10
+    ## # … with 303 more rows
+
+``` r
 litters_df = read_csv("./data/FAS_litters.csv") %>% 
   janitor::clean_names() %>% 
   relocate(litter_number) %>% 
@@ -241,10 +260,51 @@ litters_df = read_csv("./data/FAS_litters.csv") %>%
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
+``` r
+litters_df
+```
+
+    ## # A tibble: 49 × 9
+    ##    litter_number   dose  day_o…¹ gd0_w…² gd18_…³ gd_of…⁴ pups_…⁵ pups_…⁶ pups_…⁷
+    ##    <chr>           <chr> <chr>     <dbl>   <dbl>   <dbl>   <dbl>   <dbl>   <dbl>
+    ##  1 #85             Con   7          19.7    34.7      20       3       4       3
+    ##  2 #1/2/95/2       Con   7          27      42        19       8       0       7
+    ##  3 #5/5/3/83/3-3   Con   7          26      41.4      19       6       0       5
+    ##  4 #5/4/2/95/2     Con   7          28.5    44.1      19       5       1       4
+    ##  5 #4/2/95/3-3     Con   7          NA      NA        20       6       0       6
+    ##  6 #2/2/95/3-2     Con   7          NA      NA        20       6       0       4
+    ##  7 #1/5/3/83/3-3/2 Con   7          NA      NA        20       9       0       9
+    ##  8 #3/83/3-3       Con   8          NA      NA        20       9       1       8
+    ##  9 #2/95/3         Con   8          NA      NA        20       8       0       8
+    ## 10 #3/5/2/2/95     Con   8          28.5    NA        20       8       0       8
+    ## # … with 39 more rows, and abbreviated variable names ¹​day_of_tx, ²​gd0_weight,
+    ## #   ³​gd18_weight, ⁴​gd_of_birth, ⁵​pups_born_alive, ⁶​pups_dead_birth,
+    ## #   ⁷​pups_survive
+
 join
 
 ``` r
 fas_df = 
   left_join(pups_df,litters_df,by = "litter_number") %>% 
   arrange(litter_number)
+
+fas_df
 ```
+
+    ## # A tibble: 313 × 14
+    ##    litter_…¹ sex   pd_ears pd_eyes pd_pi…² pd_walk dose  day_o…³ gd0_w…⁴ gd18_…⁵
+    ##    <chr>     <chr>   <dbl>   <dbl>   <dbl>   <dbl> <chr> <chr>     <dbl>   <dbl>
+    ##  1 #1/2/95/2 male        5      13       7       9 Con   7            27      42
+    ##  2 #1/2/95/2 male        5      13       8      10 Con   7            27      42
+    ##  3 #1/2/95/2 fema…       4      13       7       9 Con   7            27      42
+    ##  4 #1/2/95/2 fema…       4      13       7      10 Con   7            27      42
+    ##  5 #1/2/95/2 fema…       5      13       8      10 Con   7            27      42
+    ##  6 #1/2/95/2 fema…       5      13       8      10 Con   7            27      42
+    ##  7 #1/2/95/2 fema…       5      13       6      10 Con   7            27      42
+    ##  8 #1/5/3/8… male        4      NA      NA       9 Con   7            NA      NA
+    ##  9 #1/5/3/8… male        4      NA       7       9 Con   7            NA      NA
+    ## 10 #1/5/3/8… male        4      NA       7       9 Con   7            NA      NA
+    ## # … with 303 more rows, 4 more variables: gd_of_birth <dbl>,
+    ## #   pups_born_alive <dbl>, pups_dead_birth <dbl>, pups_survive <dbl>, and
+    ## #   abbreviated variable names ¹​litter_number, ²​pd_pivot, ³​day_of_tx,
+    ## #   ⁴​gd0_weight, ⁵​gd18_weight

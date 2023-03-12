@@ -1,0 +1,96 @@
+---
+title: "Data_manipulation"
+output: github_document
+date: "2023-03-12"
+---
+
+```{r setup, message=FALSE}
+library(tidyverse)
+```
+
+
+## load in the FAS Litters Data
+
+```{r}
+Litters_df = read_csv("./data/FAS_litters.csv")
+Litters_df = janitor::clean_names(Litters_df)
+Litters_df
+```
+
+## dplyr package Select 
+
+choose some columb but not others
+
+```{r}
+select(Litters_df, group, gd0_weight)
+select(Litters_df, group, gd0_weight:gd_of_birth)
+select(Litters_df, -group)
+```
+
+Rename column
+
+```{r}
+rename(Litters_df, GROUP = group)
+```
+
+select helpers
+
+starts_with only include
+```{r}
+select(Litters_df, starts_with("gd"))
+```
+
+move column to front 
+
+```{r}
+select(Litters_df, litter_number, everything())
+relocate(Litters_df,litter_number)
+```
+
+## filter
+
+remove rows condition based
+
+```{r}
+filter(Litters_df, gd0_weight < 22)
+```
+
+```{r}
+filter(Litters_df, gd0_weight >= 22)
+```
+
+```{r}
+filter(Litters_df, gd_of_birth == 20)
+```
+reverse the above
+
+```{r}
+filter(Litters_df, !(gd_of_birth == 20))
+```
+
+union condition
+
+```{r}
+filter(Litters_df, gd0_weight >= 22, gd_of_birth == 20)
+```
+
+```{r}
+filter(Litters_df, group == "Mod8")
+```
+
+union condition
+
+```{r}
+filter(Litters_df, group %in% c("Mod8","Con7"))
+```
+
+## mutate
+
+create variable and modify variable 
+
+```{r}
+mutate(Litters_df,wt_gain = gd18_weight -gd0_weight, 
+       group = str_to_lower(group))
+```
+
+## arrange 

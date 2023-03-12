@@ -380,3 +380,73 @@ mutate(Litters_df,wt_gain = gd18_weight -gd0_weight,
     ## #   ⁶​pups_survive
 
 ## arrange
+
+arrange by first and by second within first
+
+``` r
+arrange(Litters_df, pups_born_alive)
+```
+
+    ## # A tibble: 49 × 8
+    ##    group litter_number gd0_weight gd18_weight gd_of_bi…¹ pups_…² pups_…³ pups_…⁴
+    ##    <chr> <chr>              <dbl>       <dbl>      <dbl>   <dbl>   <dbl>   <dbl>
+    ##  1 Con7  #85                 19.7        34.7         20       3       4       3
+    ##  2 Low7  #111                25.5        44.6         20       3       2       3
+    ##  3 Low8  #4/84               21.8        35.2         20       4       0       4
+    ##  4 Con7  #5/4/2/95/2         28.5        44.1         19       5       1       4
+    ##  5 Con8  #2/2/95/2           NA          NA           19       5       0       4
+    ##  6 Mod7  #3/82/3-2           28          45.9         20       5       0       5
+    ##  7 Mod7  #5/3/83/5-2         22.6        37           19       5       0       5
+    ##  8 Mod7  #106                21.7        37.8         20       5       0       2
+    ##  9 Con7  #5/5/3/83/3-3       26          41.4         19       6       0       5
+    ## 10 Con7  #4/2/95/3-3         NA          NA           20       6       0       6
+    ## # … with 39 more rows, and abbreviated variable names ¹​gd_of_birth,
+    ## #   ²​pups_born_alive, ³​pups_dead_birth, ⁴​pups_survive
+
+## %\>%
+
+pipes: steps to clean data
+
+``` r
+litters_data_raw = read_csv("./data/FAS_litters.csv")
+```
+
+    ## Rows: 49 Columns: 8
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): Group, Litter Number
+    ## dbl (6): GD0 weight, GD18 weight, GD of Birth, Pups born alive, Pups dead @ ...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+litters_clean_name = janitor::clean_names(litters_data_raw)
+litters_data_selected = select(litters_clean_name, -pups_survive)
+litters_mutated = mutate(litters_data_selected, wt_gain = gd18_weight - gd0_weight)
+litters_without_missing = drop_na(litters_mutated, gd0_weight)
+```
+
+drop_na(df, droup by what is missing)
+
+USE PIPE
+
+``` r
+litters_df_pipe = 
+  read_csv("./data/FAS_litters.csv") %>% 
+  janitor::clean_names() %>% 
+  select(-pups_survive) %>% 
+  mutate(wt_gain = gd18_weight - gd0_weight) %>% 
+  drop_na(gd0_weight)
+```
+
+    ## Rows: 49 Columns: 8
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): Group, Litter Number
+    ## dbl (6): GD0 weight, GD18 weight, GD of Birth, Pups born alive, Pups dead @ ...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+command shift m : hot key for %\>%

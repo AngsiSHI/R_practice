@@ -1,0 +1,127 @@
+---
+title: "Data_Tidying"
+output: github_document
+date: "2023-03-12"
+---
+
+```{r setup, message=FALSE}
+library(tidyverse)
+```
+
+
+## pivot_longer
+
+better read by r 
+
+```{r}
+pulse_data = haven::read_sas("./data/public_pulse_data.sas7bdat") %>% 
+  janitor::clean_names()
+pulse_data
+```
+
+wide to long
+
+```{r}
+pluse_data_tidy = pulse_data %>% 
+  pivot_longer(
+    bdi_score_bl:bdi_score_12m,
+    names_to = "visit",
+    names_prefix = "bdi_score_",
+    values_to = "bdi"
+  )
+pluse_data_tidy
+```
+
+rewrite, combine and mutate
+
+```{r}
+pulse_data = haven::read_sas("./data/public_pulse_data.sas7bdat") %>% 
+  janitor::clean_names() %>% 
+  pivot_longer(
+    bdi_score_bl:bdi_score_12m,
+    names_to = "visit",
+    names_prefix = "bdi_score_",
+    values_to = "bdi"
+  ) %>% 
+  relocate(id, visit) %>% 
+  mutate(visit = recode(visit, "bl" = "00m"))
+```
+
+
+## pivot wider 
+
+make a more human readable table
+
+```{r}
+analysis_result = tibble(
+  group = c("treatment","treatment","placebo","placebo"),
+  time = c("pre","post","pre","post"),
+  mean = c(4,8,3.5,4)
+)
+
+analysis_result
+
+analysis_result %>% 
+  pivot_wider(
+    names_from = "time",
+    values_from = "mean"
+  )
+```
+
+## stack tables
+
+```{r}
+fellowship_ring = readxl::read_excel("./data/LotR_Words.xlsx", range = "B3:D6") %>% 
+  mutate(movie = "fellowship_ring") %>% 
+  relocate(movie)
+fellowship_ring
+
+two_towers = readxl::read_excel("./data/LotR_Words.xlsx", range = "F3:H6") %>% 
+  mutate(movie = "two_towers") %>% 
+  relocate(movie)
+two_towers
+
+return_king = readxl::read_excel("./data/LotR_Words.xlsx", range = "J3:L6") %>% 
+  mutate(movie = "return_king") %>% 
+  relocate(movie)
+return_king
+```
+
+Bind all row, and clean the data to long 
+
+```{r}
+lotr_tidy = bind_rows(fellowship_ring, two_towers, return_king) %>% 
+  janitor::clean_names() %>% 
+  relocate(movie) %>% 
+  pivot_longer(
+    female:male,
+    names_to = "gender",
+    values_to = "words"
+  )
+lotr_tidy
+```
+
+## joining datasets
+
+import fas
+
+```{r}
+pups_df = read_csv("./data//FAS_pups.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(sex = recode(sex,'1' = "male", '2' = "female"))
+
+litters_df = read_csv("./data/FAS_litters.csv") %>% 
+  janitor::clean_names() %>% 
+  relocate(litter_number) %>% 
+  separate(group, into = c("dose","day_of_tx"), sep = 3)
+
+```
+join
+
+```{r}
+fas_df = 
+  left_join(pups_df,litters_df,by = "litter_number") %>% 
+  arrange(litter_number)
+```
+
+
